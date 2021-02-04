@@ -1,0 +1,35 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+# stage pipelines
+- pipeline.id: nginx_stage
+  path.config: "/etc/logstash/conf.d/stage/nginx_stage.conf"
+- pipeline.id: nginx_stage_ow
+  path.config: "/etc/logstash/conf.d/stage/nginx_stage_ow.conf"
+- pipeline.id: nginx_stage_menpop
+  path.config: "/etc/logstash/conf.d/stage/nginx_stage_menpop.conf"
+- pipeline.id: nginx_stage_menpop_ow
+  path.config: "/etc/logstash/conf.d/stage/nginx_stage_menpop_ow.conf"
+- pipeline.id: db_messages_stage
+  path.config: "/etc/logstash/conf.d/stage/logfile_stage_messages.conf"
+- pipeline.id: db_requests_stage
+  path.config: "/etc/logstash/conf.d/stage/logfile_stage_requests.conf"
+- pipeline.id: db_operations_stage
+  path.config: "/etc/logstash/conf.d/stage/logfile_stage_operations.conf"
+
+# prod pipelines
+- pipeline.id: nginx_prod
+  path.config: "/etc/logstash/conf.d/prod/nginx_prod.conf"
+- pipeline.id: nginx_prod_ow
+  path.config: "/etc/logstash/conf.d/prod/nginx_prod_ow.conf"
+- pipeline.id: nginx_prod_menpop
+  path.config: "/etc/logstash/conf.d/prod/nginx_prod_menpop.conf"
+- pipeline.id: nginx_prod_menpop_ow
+  path.config: "/etc/logstash/conf.d/prod/nginx_prod_menpop_ow.conf"
+- pipeline.id: db_messages_prod
+  path.config: "/etc/logstash/conf.d/prod/logfile_prod_messages.conf"
+- pipeline.id: db_requests_prod
+  path.config: "/etc/logstash/conf.d/prod/logfile_prod_requests.conf"
+- pipeline.id: db_operations_prod
+  path.config: "/etc/logstash/conf.d/prod/logfile_prod_operations.conf"

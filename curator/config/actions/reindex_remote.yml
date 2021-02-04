@@ -1,0 +1,65 @@
+actions:
+  1:
+    description: "Reindex remote db_operation_logs to local db_operation_logs"
+    action: reindex
+    options:
+      wait_interval: 9
+      max_wait: -1
+      request_body:
+        source:
+          remote:
+            host: https://devopslearning.xyz:9200
+            username: "{{ elk_username }}"
+            password: "{{ elk_password }}"
+          index: <db_operation_logs-{now/d{YYYY.MM.dd}}>
+        dest:
+          index: <db_operation_logs-{now/M{YYYY.MM}}>
+    filters:
+    - filtertype: none
+  2:
+    description: "Reindex remote db_message_logs to local db_message_logs"
+    action: reindex
+    options:
+      wait_interval: 9
+      max_wait: -1
+      request_body:
+        source:
+          remote:
+            host: https://devopslearning.xyz:9200
+            username: "{{ elk_username }}"
+            password: "{{ elk_password }}"
+          index: <db_message_logs-{now/d{YYYY.MM.dd}}>
+        dest:
+          index: <db_message_logs-{now/M{YYYY.MM}}>
+    filters:
+    - filtertype: none
+  3:
+    description: "Reindex remote db_request_logs to local db_request_logs"
+    action: reindex
+    options:
+      wait_interval: 9
+      max_wait: -1
+      request_body:
+        source:
+          remote:
+            host: https://devopslearning.xyz:9200
+            username: "{{ elk_username }}"
+            password: "{{ elk_password }}"
+          index: <db_request_logs-{now/d-2d{YYYY.MM.dd}}>
+        dest:
+          index: <db_request_logs-{now/M{YYYY.MM}}>
+    filters:
+    - filtertype: none
+# Option 2:
+#      remote_filters:
+#      - filtertype: age
+#        source: name
+#        direction: older
+#        timestring: '%Y.%m.%d'
+#        unit: days
+#        unit_count: 4
+#      - filtertype: pattern
+#        kind: prefix
+#        value: db_operation_logs-<{now/d{YYYY.MM.dd}}>
+
+

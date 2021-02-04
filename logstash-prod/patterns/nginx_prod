@@ -1,0 +1,1 @@
+NGINX_ERROR %{USERNAME:hostname}%{SPACE} (?<timestamp>\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}) \[%{DATA:err_severity}\] (%{NUMBER:pid:int}#%{NUMBER}: \*%{NUMBER}|\*%{NUMBER}) %{DATA:err_message}(?:, client: (?<client_ip>%{IP}|%{HOSTNAME}))(?:, server: %{IPORHOST:server_ip})(?:, request: %{QS:request})?(?:, host: %{QS:host_ip})?(?:, referrer: \"%{URI:referrer})?

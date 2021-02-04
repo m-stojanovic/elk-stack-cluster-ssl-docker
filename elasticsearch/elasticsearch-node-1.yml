@@ -1,0 +1,81 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+cluster.name: elk_c1
+#
+# ------------------------------------ Node ------------------------------------
+#
+node.name: node-1
+#
+# Add custom attributes to the node:
+#
+#node.attr.rack: r1
+node.attr.zone: 1
+node.attr.temp: hot
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+path.data: /DATA1/elasticsearch
+#
+# Path to log files:
+#
+path.logs: /DATA1/elasticsearch/logs
+#
+# Path to save snapshots
+#
+path.repo: /DATA0/elasticsearch/snapshots
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+bootstrap.memory_lock: true
+#
+# ---------------------------------- Network -----------------------------------
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+network.host: [_local_, _site_]
+#
+# Set a custom port for HTTP:
+#
+#http.port: 9200
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when this node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+discovery.seed_hosts: ["172.29.0.2"]
+#
+# Bootstrap the cluster using an initial set of master-eligible nodes:
+#
+cluster.initial_master_nodes: ["master-1"]
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Require explicit names when deleting indices:
+#
+#action.destructive_requires_name: true
+node.master: false
+node.data: true
+node.ingest: false
+node.ml: false
+#
+# ------------------------------ X-Pack ----------------------------------------
+#
+xpack.security.enabled: true
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.security.transport.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
+xpack.security.transport.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
+xpack.security.transport.ssl.certificate_authorities: ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]
+
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
+xpack.security.http.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
+xpack.security.http.ssl.verification_mode: certificate
+xpack.security.http.ssl.certificate_authorities : ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]

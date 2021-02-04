@@ -1,0 +1,180 @@
+version: '2.2'
+services:
+  master-es:
+    build: elasticsearch/
+    container_name: master-es
+    hostname: master-es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - /DATA0:/DATA0/elasticsearch
+      - ./elasticsearch/elasticsearch-master.yml:/etc/elasticsearch/elasticsearch.yml
+      - ./elasticsearch/jvm.options-master:/etc/elasticsearch/jvm.options
+      - config-es-master:/etc/elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      elk:
+        ipv4_address: 172.29.0.2
+
+  node-1-es:
+    build: elasticsearch/
+    container_name: node-1-es
+    hostname: node-1-es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - /DATA1:/DATA1/elasticsearch
+      - /DATA0/snapshots:/DATA0/elasticsearch/snapshots
+      - ./elasticsearch/elasticsearch-node-1.yml:/etc/elasticsearch/elasticsearch.yml
+      - ./elasticsearch/jvm.options-node:/etc/elasticsearch/jvm.options
+      - config-es-node-1:/etc/elasticsearch
+    networks:
+      elk:
+        ipv4_address: 172.29.0.3
+
+  node-2-es:
+    build: elasticsearch/
+    container_name: node-2-es
+    hostname: node-2-es
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - /DATA2:/DATA2/elasticsearch
+      - /DATA0/snapshots:/DATA0/elasticsearch/snapshots
+      - ./elasticsearch/elasticsearch-node-2.yml:/etc/elasticsearch/elasticsearch.yml
+      - ./elasticsearch/jvm.options-node:/etc/elasticsearch/jvm.options
+      - config-es-node-2:/etc/elasticsearch
+    networks:
+      elk:
+        ipv4_address: 172.29.0.4
+
+  kibana-es:
+    build: kibana/
+    container_name: kibana
+    hostname: kibana
+    volumes:
+      - ./kibana/kibana.yml:/etc/kibana/kibana.yml
+      - config-kibana:/etc/kibana
+    ports:
+      - "5601:5601"
+    networks:
+      elk:
+        ipv4_address: 172.29.0.5
+    depends_on:
+      - master-es
+
+  logstash-es:
+    build: logstash/
+    container_name: logstash
+    hostname: logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/etc/logstash/logstash.yml
+      - ./logstash/config/pipelines.yml:/etc/logstash/pipelines.yml
+      - ./logstash/config/jvm.options:/etc/logstash/jvm.options
+      - ./logstash/conf.d:/etc/logstash/conf.d
+      - ./logstash/conf.d_inactiv:/etc/logstash/conf.d_inactiv
+      - ./logstash/patterns:/etc/logstash/patterns
+      - ./logstash/scripts:/etc/logstash/scripts
+      - ./logstash/files:/etc/logstash/files
+      - ./logstash/jars/postgresql-42.2.16.jar:/usr/share/logstash/logstash-core/lib/jars/postgresql-42.2.16.jar
+      - /DATA1/logstash:/DATA1/logstash
+      - config-logstash:/etc/logstash
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    networks:
+      elk:
+        ipv4_address: 172.29.0.6
+    depends_on:
+      - master-es
+
+#  logstash-prod-es:
+#    build: logstash-prod/
+#    container_name: logstash-prod
+#    hostname: logstash-prod
+#    volumes:
+#      - ./logstash-prod/config/logstash.yml:/etc/logstash/logstash.yml
+#      - ./logstash-prod/config/pipelinesyml:/etc/logstash/pipelines.yml
+#      - ./logstash-prod/config/jvm.options:/etc/logstash/jvm.options
+#      - ./logstash-prod/conf.d:/etc/logstash/conf.d
+#      - ./logstash-prod/patterns:/etc/logstash/patterns
+#      - /DATA2/logstash:/DATA2/logstash
+#      - config-logstash-prod:/etc/logstash
+#    ports:
+#      - "5002:5002"
+#      - "9601:9601"
+#    networks:
+#      elk:
+#        ipv4_address: 172.29.0.9
+#    depends_on:
+#      - master-es
+
+  cerebro-es:
+    build: cerebro/
+    container_name: cerebro
+    hostname: cerebro
+    environment:
+      CEREBRO_PORT: 9091
+    volumes:
+      - config-cerebro:/opt/cerebro/conf
+      - ./cerebro/application.conf/:/opt/cerebro/conf/application.conf
+    ports:
+      - "9091:9091"
+    networks:
+      elk:
+        ipv4_address: 172.29.0.7
+    depends_on:
+      - master-es
+
+  curator-es:
+    build: curator/
+    container_name: curator
+    volumes:
+      - ./curator/config:/config
+      - ./curator/config/crontab.txt:/etc/crontabs/root
+    networks:
+      elk:
+        ipv4_address: 172.29.0.8
+    depends_on:
+      - master-es
+
+volumes:
+  config-es-master:
+    driver: local
+  config-es-node-1:
+    driver: local
+  config-es-node-2:
+    driver: local
+  config-kibana:
+    driver: local
+  config-logstash:
+    driver: local
+#  config-logstash-prod:
+#    driver: local
+  config-cerebro:
+    driver: local
+
+networks:
+  elk:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/16
+          gateway: 172.29.0.1

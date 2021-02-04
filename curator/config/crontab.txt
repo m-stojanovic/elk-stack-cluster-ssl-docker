@@ -1,0 +1,4 @@
+#0 0 * * * curator --config /config/config.yml /config/actions/delete_indices.yml 
+55 23 * * * /config/cron/reindex_remote.sh
+54 23 * * * /config/cron/delete_remote.sh
+53 23 * * * /config/cron/delete_indices.sh
