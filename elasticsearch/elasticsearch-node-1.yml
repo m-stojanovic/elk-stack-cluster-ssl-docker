@@ -70,12 +70,14 @@ node.ml: false
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
 xpack.security.transport.ssl.verification_mode: certificate
-xpack.security.transport.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
-xpack.security.transport.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
-xpack.security.transport.ssl.certificate_authorities: ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]
+xpack.security.transport.ssl.key: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/privkey1.pem
+xpack.security.transport.ssl.certificate: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/fullchain1.pem
+xpack.security.transport.ssl.certificate_authorities: ["/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/chain1.pem"]
 
 xpack.security.http.ssl.enabled: true
-xpack.security.http.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
-xpack.security.http.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
+xpack.security.http.ssl.key: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/privkey1.pem
+xpack.security.http.ssl.certificate: /etc/elasticsearch/ssl/elastic-stack.carnegietechnologies.rs/fullchain1.pem
 xpack.security.http.ssl.verification_mode: certificate
-xpack.security.http.ssl.certificate_authorities : ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]
+xpack.security.http.ssl.certificate_authorities : ["/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/chain1.pem"]
+
+indices.breaker.total.use_real_memory : false
