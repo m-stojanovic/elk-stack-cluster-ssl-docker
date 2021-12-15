@@ -12,6 +12,7 @@ node.name: master-1
 #
 #node.attr.rack: r1
 node.attr.zone: 1
+cluster.max_shards_per_node: 3000
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -73,20 +74,21 @@ node.ml: false
 xpack.security.enabled: true
 xpack.security.transport.ssl.enabled: true
 xpack.security.transport.ssl.verification_mode: certificate
-xpack.security.transport.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
-xpack.security.transport.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
-xpack.security.transport.ssl.certificate_authorities: ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]
+xpack.security.transport.ssl.key: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/privkey1.pem
+xpack.security.transport.ssl.certificate: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/fullchain1.pem
+xpack.security.transport.ssl.certificate_authorities: ["/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/chain1.pem"]
 
 xpack.security.http.ssl.enabled: true
-xpack.security.http.ssl.key: /etc/elasticsearch/ssl/devopslearning.xyz/privkey1.pem
-xpack.security.http.ssl.certificate: /etc/elasticsearch/ssl/devopslearning.xyz/fullchain1.pem
+xpack.security.http.ssl.key: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/privkey1.pem
+xpack.security.http.ssl.certificate: /etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/fullchain1.pem
 xpack.security.http.ssl.verification_mode: certificate
-xpack.security.http.ssl.certificate_authorities : ["/etc/elasticsearch/ssl/devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/devopslearning.xyz/chain1.pem"]
-#
+xpack.security.http.ssl.certificate_authorities : ["/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/cacert.pem","/etc/elasticsearch/ssl/elastic-stack.devopslearning.xyz/chain1.pem"]
+
 # ------------------------ Cross Cluster Communication  ------------------------
-#
-reindex.remote.whitelist: "devopslearning-dev.xyz:9200"
+# 
+reindex.remote.whitelist: ["elastic-stack-dev.devopslearning.xyz:9200","elastic-stack.devopslearning.xyz:9200"]
 reindex.ssl.verification_mode: certificate
-reindex.ssl.key: certs/c1/privkey1.pem
-reindex.ssl.certificate: certs/c1/fullchain1.pem
+reindex.ssl.key: ssl/c2/privkey1.pem
+reindex.ssl.certificate: ssl/c2/fullchain1.pem
 reindex.ssl.certificate_authorities: "/etc/elasticsearch/ssl/c2/ca-certificates.crt"
+indices.breaker.total.use_real_memory : false
